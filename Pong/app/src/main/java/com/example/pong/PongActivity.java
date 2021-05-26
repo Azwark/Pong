@@ -10,6 +10,7 @@ import android.view.WindowManager;
 public class PongActivity extends Activity {
     private PongGame mPongGame;
 
+    // called when pong activity is created
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,6 +25,8 @@ public class PongActivity extends Activity {
         mPongGame = new PongGame(this, size.x, size.y);
         setContentView(mPongGame);
     }
+
+    // called when a pause is ended
     @Override
     protected void onResume() {
         super.onResume();
@@ -31,6 +34,7 @@ public class PongActivity extends Activity {
         mPongGame.resume();
     }
 
+    // called when game becomes paused
     @Override
     protected void onPause() {
         super.onPause();

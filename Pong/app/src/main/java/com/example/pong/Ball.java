@@ -64,6 +64,7 @@ public class Ball {
 
     }
 
+    // what happens when the ball and bat collide
     void batBounce(RectF batPosition){
 
         // detect centre of bat

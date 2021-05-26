@@ -64,6 +64,7 @@ public class PongGame extends SurfaceView implements Runnable{
     private int mBopID = -1;
     private int mMissID = -1;
 
+    // constructor
     public PongGame(Context context, int x, int y) {
 
         // Super... calls the parent class
@@ -92,6 +93,7 @@ public class PongGame extends SurfaceView implements Runnable{
         mBall = new Ball(mScreenX);
         mBat = new Bat(mScreenX, mScreenY);
 
+        // Version checking
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             AudioAttributes audioAttributes =
                     new AudioAttributes.Builder()
@@ -106,6 +108,7 @@ public class PongGame extends SurfaceView implements Runnable{
             mSP = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
         }
 
+        // Load sound files
         try{
             AssetManager assetManager = context.getAssets();
             AssetFileDescriptor descriptor;
@@ -117,7 +120,7 @@ public class PongGame extends SurfaceView implements Runnable{
             mBopID = mSP.load(descriptor, 0);
             descriptor = assetManager.openFd("miss.ogg");
             mMissID = mSP.load(descriptor, 0);
-        }catch(IOException e){
+        }catch(IOException e){ // if cant load
             Log.d("error", "failed to load sound files");
         }
 
@@ -126,11 +129,10 @@ public class PongGame extends SurfaceView implements Runnable{
 
     }
 
+    // called to start a new game
     private void startNewGame(){
-
         // use ball method reset
         mBall.reset(mScreenX, mScreenY);
-
 
         // Reset the score and the player's chances
         mScore = 0;
@@ -138,7 +140,7 @@ public class PongGame extends SurfaceView implements Runnable{
 
     }
 
-    // run called by andriod over and over
+    // run called by andriod over and over, looped!
     @Override
     public void run() {
         while (mPlaying) {
@@ -178,12 +180,14 @@ public class PongGame extends SurfaceView implements Runnable{
         }
     }
 
+    // update object positions
     private void update() {
         // Call ball and bat update methods
         mBall.update(mFPS);
         mBat.update(mFPS);
     }
 
+    // check to see if the hitboxes of the ball and bat collide
     private void detectCollisions(){
         // Has the bat hit the ball?
         if(RectF.intersects(mBat.getRect(), mBall.getRect())) {
@@ -221,6 +225,7 @@ public class PongGame extends SurfaceView implements Runnable{
         }
     }
 
+    // Pause game, between games
     public void pause() {
         // Set mPlaying to false
         // Stopping the thread isn't
@@ -284,9 +289,7 @@ public class PongGame extends SurfaceView implements Runnable{
     }
 
     // Handle all the screen touches
-
     @Override
-
     public boolean onTouchEvent(MotionEvent motionEvent) {
         // Switch instead if statements
         switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
@@ -320,7 +323,7 @@ public class PongGame extends SurfaceView implements Runnable{
     }
 
 
-
+    // Debugging method
     private void printDebuggingText(){
         int debugSize = mFontSize / 2;
         int debugStart = 150;
